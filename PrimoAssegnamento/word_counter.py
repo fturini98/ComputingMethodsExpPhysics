@@ -1,23 +1,29 @@
+''' 
+This program read a file from imput file and search
+the requested letter
+It also have an option for showing the relative frequencies
+of all letters
+'''
+
 import argparse
 import os
+import timeit
 import matplotlib.pyplot as plt
 import numpy as np
-import timeit
+
 
 start=timeit.timeit()#start for calculating the total enlapsed time
 
 
 ##############define parser###################
 
-parser=argparse.ArgumentParser(description="Return the relative Frequencies of the letters in the input flie") 
+parser=argparse.ArgumentParser(description="Return the relative Frequencies of the letters in the input flie")
 parser.add_argument("file_path", type=str, help="the path of imput file")
 parser.add_argument("letter",type=str,help="the letter that you want to count")
 parser.add_argument("-i","--histo",action="store_true", help="Show the istogram of the relative frequencies of all letters")
 parser.add_argument("-k","--KeyInSensitive", action="store_true", help="Deactivate the key sensitive mode")
 parser.add_argument("-t","--TimeEnlapsed",action="store_true", help="Show the total enlapsed time of the program")
-parser.add_argument("-v", "--verbosity", action="count",help="increase output verbosity")
-
-
+parser.add_argument("-v", "--verbosity", action="count",help="increase output verbosity",default=0)
 args=parser.parse_args()
 
 
@@ -35,50 +41,46 @@ lines=file_in.readlines()
 all_freq={}
 
 for line in lines:
-    
+
     for vocab_letter in line:
-        
-    #########controll if the charater is a letter  using ASCII code############
+
+#########controll if the charater is a letter  using ASCII code############
         if ord(vocab_letter) >= 65 and ord(vocab_letter) <= 90:
-            letter_control=True
+            LETTER_CONTROL=True
         elif ord(vocab_letter) >= 97 and ord(vocab_letter) <= 122:
-            letter_control=True
+            LETTER_CONTROL=True
         else:
-            letter_control=False
-    #####################add the letter to dictionary##########  
-        
-        if letter_control:
+            LETTER_CONTROL=False
+#####################add the letter to dictionary##########
+
+        if LETTER_CONTROL:
             if vocab_letter in all_freq:
                 all_freq[vocab_letter] +=1
             else:
                 all_freq[vocab_letter] =1
-        
-   
-        
+
 ##########################Key Insensitive option######################
 if args.KeyInSensitive:
-    
+
     all_freq_insensitive={}
-    
+
     for vocab_letter in all_freq.keys():
-        
-        
+
         if vocab_letter.upper() in all_freq_insensitive:
             all_freq_insensitive[vocab_letter.upper()] +=all_freq[vocab_letter]
         else:
             all_freq_insensitive[vocab_letter.upper()] = all_freq[vocab_letter]
-    final_voc=all_freq_insensitive 
-    
-    
+    final_voc=all_freq_insensitive
+
     if args.letter.upper() in final_voc:#take the value of occurences of the searched letter
-        letter_count=final_voc[args.letter.upper()]  
+        letter_count=final_voc[args.letter.upper()]
     else:
         letter_count=0.
-    
+
 else:
-    final_voc=all_freq 
+    final_voc=all_freq
     if args.letter in final_voc:#take the value of occurences of the searched letter
-        letter_count=final_voc[args.letter]  
+        letter_count=final_voc[args.letter]
     else:
         letter_count=0.
 #####################count of all letters##########################
@@ -105,7 +107,7 @@ else:
     print(f"{letter_count/n_letters}")
 
 
-###################option for plotting histogram################    
+###################option for plotting histogram################
 if args.histo:
     width=1.0
     plt.bar(final_voc.keys(),freq, width, color='g')
