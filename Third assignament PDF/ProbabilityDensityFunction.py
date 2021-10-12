@@ -1,5 +1,5 @@
 """
-The ProbabilityDensityFunction is a class thath use the method of slpline for
+The ProbabilityDensityFunction is a class that use the method of slpline for
 generate the PDF,CDF,PPF from some points of pdf described by their cordinates
 x and y. The class have also methods for:
     -generate an array of value distributed like the pdf 
