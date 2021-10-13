@@ -1,15 +1,20 @@
-"""
+'''
 The ProbabilityDensityFunction is a class that use the method of slpline for
 generate the PDF,CDF,PPF from some points of pdf described by their cordinates
 x and y. The class have also methods for:
-    -generate an array of value distributed like the pdf 
-    -plot the graphs of PDF,CDF,PPf
-    -Evaluate the probability that an event will be in a certai intervall
-    -Return the value of PDF in a certain point
+    
+ * generate an array of value distributed like the pdf 
+ 
+ * plot the graphs of PDF,CDF,PPf
+ 
+ * Evaluate the probability that an event will be in a certai intervall
+ 
+ * Return the value of PDF in a certain point
+ 
 In this Script is also implemented the function PDF_from_function that create
 a PDF object with a certain parametric function  used for generatng 
 the x and y value of the array, this function must be passed by the owner.
-"""
+'''
 import sys
 import numpy as np
 from scipy.interpolate import InterpolatedUnivariateSpline
