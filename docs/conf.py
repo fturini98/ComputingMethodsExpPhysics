@@ -12,7 +12,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../Third_assignament_PDF/'))
+sys.path.insert(0, os.path.abspath('../Third_assignament_PDF/'))
 
 
 # -- Project information -----------------------------------------------------
