@@ -1,19 +1,8 @@
 '''
-The ProbabilityDensityFunction is a class that use the method of slpline for
-generate the PDF,CDF,PPF from some points of pdf described by their cordinates
-x and y. The class have also methods for:
-    
- * generate an array of value distributed like the pdf 
- 
- * plot the graphs of PDF,CDF,PPf
- 
- * Evaluate the probability that an event will be in a certai intervall
- 
- * Return the value of PDF in a certain point
- 
-In this Script is also implemented the function PDF_from_function that create
-a PDF object with a certain parametric function  used for generatng 
-the x and y value of the array, this function must be passed by the owner.
+The ProbabilityDensityFunction is a module that use the methods of slpline class
+for generate the PDF,CDF,PPF from some campioned points of a certain pdf.
+In this module there is a calas and a function that works togheter for make this
+job.
 '''
 import sys
 import numpy as np
@@ -22,7 +11,58 @@ from matplotlib import pyplot as plt
 
 
 class ProbabilityDensityFunction(InterpolatedUnivariateSpline):
-    '''
+    
+    ''' 
+    The **ProbabilityDensityFunction** is a class that use the method of mother class
+    spline for evaluate:
+    
+     * *Probability Density Function*
+ 
+     * *Comulative Density Function*
+
+     * *Percent Point Function*
+ 
+    from a series of campioned points of a certain PDF passed like two arrays of x and
+    y cordinates.
+    The class have also a serie of checks that in case are not passed the
+    program is interrupted:
+
+     * Check the max CDF value, if is greater than 1 with a
+       incertain of 1e-5, the program is interrupted
+ 
+     * Check if the value of PDF is lesser than 0 with a incertain of 1e-5, in
+       this case the program is interrupted
+
+    Properties
+    ----------
+
+    _function_name: str, optional, private
+       Is the name that the user could attribute to the function, it will show in
+       the graphs
+   
+    pdf: scipy.interpolate.InterpolatedUnivariateSpline
+         The PDF evalueted over the input points
+
+    cdf: scipy.interpolate.InterpolatedUnivariateSpline
+         The CDF evalueted over the input points
+
+    ppf: scipy.interpolate.InterpolatedUnivariateSpline
+         The PPF evalueted over the input points
+
+    range: array
+         An array that describes the range in which the function is define, it had
+         a number of entries equal to the input parameter *steps*
+
+    _steps: int, private
+         The number of bins over which are drawn the probability functions(PDF,CDF,PPF)
+
+    ycdf: float_array
+         The array of values of CDF
+
+    max_cdf: float
+         The max value of CDF
+
+    
     '''
     def __init__(self,x,y,function_name="Function",k=3,steps=101):
         self._function_name=function_name
@@ -109,28 +149,40 @@ class ProbabilityDensityFunction(InterpolatedUnivariateSpline):
 def PDF_from_function(f,x_min,x_max,function_name="Function",N=1000,k=3,steps=101):
 
         """
+        The *PDF_from_function* is a function that takes the following parameters
+        for arguments and return a
+        **ProbabilityDensitiyFunction.ProbabilityDensityFunction** create over an
+        array of points distributed like the function f.
+        The function f works like a PDF far all the distributions exludig the uniform distribution,
+        in that case is suggest to use the function of numpy.random.uniform.
+        
         Parameters
         ----------
-        f : function
+
+        f: function
            The base function, from that the function pdfClass generate
            a class of type PDF modelled over that function
-        x_min : float
+        x_min: float
           The minimum of range of function f
-        x_max : float
+        x_max: float
           The maximum of range of function f
-        function_name: str,optional
+        function_name: str, optional
           deffine the name of the custom function to insert
-        N : int,optional
+        N: int, optional
          Number of point passed to the class PDF for generating the pdf function.
          The default is 1000.
-        k : int,optional
+        k: int, optional
          Degree of the smoothing spline used inside the class PDF. Must be 1 <= k <= 5.
          The default is 3.
-        steps : TYPE,optional
+        steps: int, optional
           Number of bins in the histograms with the shape of PDF.
           The default is 1000.
 
-        Generate a class of type PDF from a determinate function if it is different from the uniform distribution
+        Returns
+        -------
+        
+        ProbabilityDensityFunction: **ProbabilityDensityFunction**
+          The **PDF** class that have the properties distributed in accord to the PDF==>f
         """
         x=np.linspace(x_min,x_max,N)
         y=f(x)
