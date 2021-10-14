@@ -1,7 +1,7 @@
 '''
 The ProbabilityDensityFunction is a module that use the methods of slpline class
 for generate the PDF,CDF,PPF from some campioned points of a certain pdf.
-In this module there is a calas and a function that works togheter for make this
+In this module there is a class and a function that works togheter for make this
 job.
 '''
 import sys
@@ -9,10 +9,18 @@ import numpy as np
 from scipy.interpolate import InterpolatedUnivariateSpline
 from matplotlib import pyplot as plt
 
+class ProbabilityError(Exception):
+    '''
+    A simple Error class for the case in which the *probability* is lesser than 0
+    or the **CDF** in the range is greather than 1.
+    '''
+    pass
 
 class ProbabilityDensityFunction(InterpolatedUnivariateSpline):
     
-    ''' 
+    '''
+    Description
+    -----------
     The **ProbabilityDensityFunction** is a class that use the method of mother class
     spline for evaluate:
     
@@ -33,6 +41,10 @@ class ProbabilityDensityFunction(InterpolatedUnivariateSpline):
      * Check if the value of PDF is lesser than 0 with a incertain of 1e-5, in
        this case the program is interrupted
 
+    Init
+    ----
+
+    
     Properties
     ----------
 
@@ -61,8 +73,9 @@ class ProbabilityDensityFunction(InterpolatedUnivariateSpline):
 
     max_cdf: float
          The max value of CDF
-
     
+    Methods
+    -------
     '''
     def __init__(self,x,y,function_name="Function",k=3,steps=101):
         self._function_name=function_name
@@ -73,8 +86,7 @@ class ProbabilityDensityFunction(InterpolatedUnivariateSpline):
         min_y=np.amin(y)
         error_y=min_y<(-1e-5)
         if error_y:#controll that the probability dosen't have a negative value
-            print(f"THE PROBABILITY HAVE A NEGATIVE VALUE AND IT'IS {np.amin(y)}")
-            sys.exit()
+            raise ProbabilityError(f"THE PROBABILITY HAVE A NEGATIVE VALUE AND IT'IS {np.amin(y)}")
         print("ok,crash per k inserito sopra")
         self.ycdf = np.array([self.integral(x[0], xcdf) for xcdf in x])#caluclate the value
         # of yCDF for each value of x
@@ -89,8 +101,7 @@ class ProbabilityDensityFunction(InterpolatedUnivariateSpline):
     def cdf(self):
         controll_cdf_value=self.max_cdf_value-1.>1e-5
         if  controll_cdf_value:#controll the normalization of the array
-            print(f"The function is not normalized, in the range the max value of cdf is {self.max_cdf_value} maybe you want to renormalize the function by it?")
-            sys.exit()
+            raise ProbabilityError(f"The function is not normalized, in the range the max value of cdf is {self.max_cdf_value} maybe you want to renormalize the function by it?")
         return self._cdf
         
 
@@ -182,12 +193,11 @@ def PDF_from_function(f,x_min,x_max,function_name="Function",N=1000,k=3,steps=10
         -------
         
         ProbabilityDensityFunction: **ProbabilityDensityFunction**
-          The **PDF** class that have the properties distributed in accord to the PDF==>f
+          The **PDF** class that have the properties distributed in accord to the PDF==f
         """
         x=np.linspace(x_min,x_max,N)
         y=f(x)
         if np.amin(y)==np.amax(y):#the method used here dont'work for uniform distribution
-           print("The spline method dont'work very well for costant distibution, consider to use np.random")
-           sys.exit()
+           raise Exception("The spline method dont'work very well for costant distibution, consider to use np.random")
         else:
            return ProbabilityDensityFunction(x,y,function_name,k,steps)

@@ -152,7 +152,7 @@
 <span id="probabilitydensityfunction-documentation"></span><h1>ProbabilityDensityFunction Documentation<a class="headerlink" href="#module-ProbabilityDensityFunction" title="Permalink to this headline">¶</a></h1>
 <p>The ProbabilityDensityFunction is a module that use the methods of slpline class
 for generate the PDF,CDF,PPF from some campioned points of a certain pdf.
-In this module there is a calas and a function that works togheter for make this
+In this module there is a class and a function that works togheter for make this
 job.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="ProbabilityDensityFunction.PDF_from_function">
@@ -163,28 +163,27 @@ for arguments and return a
 array of points distributed like the function f.
 The function f works like a PDF far all the distributions exludig the uniform distribution,
 in that case is suggest to use the function of numpy.random.uniform.</p>
-<dl class="simple">
-<dt>f: function</dt><dd><p>The base function, from that the function pdfClass generate
-a class of type PDF modelled over that function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>f</strong> (<em>function</em>) – The base function, from that the function pdfClass generate
+a class of type PDF modelled over that function</p></li>
+<li><p><strong>x_min</strong> (<em>float</em>) – The minimum of range of function f</p></li>
+<li><p><strong>x_max</strong> (<em>float</em>) – The maximum of range of function f</p></li>
+<li><p><strong>function_name</strong> (<em>str</em><em>, </em><em>optional</em>) – deffine the name of the custom function to insert</p></li>
+<li><p><strong>N</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of point passed to the class PDF for generating the pdf function.
+The default is 1000.</p></li>
+<li><p><strong>k</strong> (<em>int</em><em>, </em><em>optional</em>) – Degree of the smoothing spline used inside the class PDF. Must be 1 &lt;= k &lt;= 5.
+The default is 3.</p></li>
+<li><p><strong>steps</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of bins in the histograms with the shape of PDF.
+The default is 1000.</p></li>
+</ul>
 </dd>
-<dt>x_min: float</dt><dd><p>The minimum of range of function f</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>ProbabilityDensityFunction</strong> – The <strong>PDF</strong> class that have the properties distributed in accord to the PDF==f</p>
 </dd>
-<dt>x_max: float</dt><dd><p>The maximum of range of function f</p>
-</dd>
-<dt>function_name: str, optional</dt><dd><p>deffine the name of the custom function to insert</p>
-</dd>
-<dt>N: int, optional</dt><dd><p>Number of point passed to the class PDF for generating the pdf function.
-The default is 1000.</p>
-</dd>
-<dt>k: int, optional</dt><dd><p>Degree of the smoothing spline used inside the class PDF. Must be 1 &lt;= k &lt;= 5.
-The default is 3.</p>
-</dd>
-<dt>steps: int, optional</dt><dd><p>Number of bins in the histograms with the shape of PDF.
-The default is 1000.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>ProbabilityDensityFunction: <strong>ProbabilityDensityFunction</strong></dt><dd><p>The <strong>PDF</strong> class that have the properties distributed in accord to the PDF==&gt;f</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><strong>ProbabilityDensityFunction</strong></p>
 </dd>
 </dl>
 </dd></dl>
@@ -270,6 +269,13 @@ between x1 and x2.</p>
 <dd><p>Return an array of random variables distributed like the pdf, the number of bins are equal to size.</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="ProbabilityDensityFunction.ProbabilityError">
+<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">ProbabilityDensityFunction.</span></span><span class="sig-name descname"><span class="pre">ProbabilityError</span></span><a class="headerlink" href="#ProbabilityDensityFunction.ProbabilityError" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simple Error class for the case in which the <em>probability</em> is lesser than 0
+or the <strong>CDF</strong> in the range is greather than 1.</p>
 </dd></dl>
 
 </div>
