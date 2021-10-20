@@ -67,6 +67,7 @@ class ProbabilityDensityFunction(InterpolatedUnivariateSpline):
 
     _steps: int, private
          The number of bins over which are drawn the probability functions(PDF,CDF,PPF)
+         is the equivalent of the nuber of points over x axis
 
     ycdf: float_array
          The array of values of CDF
@@ -114,7 +115,7 @@ class ProbabilityDensityFunction(InterpolatedUnivariateSpline):
 
     def rnd(self, size=1000):
         """
-        Return an array of random variables distributed like the pdf, the number of bins are equal to size.
+        Return an array of random variables distributed like the pdf.
         """
         return self.ppf(np.random.uniform(size=size))
     def pd(self,x1):

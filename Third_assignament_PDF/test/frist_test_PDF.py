@@ -1,3 +1,7 @@
+import sys
+
+sys.path.append('../') #use to redirect the path for import my modulue
+#in a different directory
 from ProbabilityDensityFunction import *
 
 if __name__=="__main__":
