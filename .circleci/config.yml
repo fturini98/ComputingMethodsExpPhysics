@@ -37,7 +37,8 @@ jobs:
       - run:
           name: Run tests
           # This assumes pytest is installed via the install-package step above
-          command: python3 Third_assignament_PDF/test/Test_ProbabilityDensityFunction.py
+          # command: python3 Third_assignament_PDF/test/Test_ProbabilityDensityFunction.py
+          command: python3 Third_assignament_PDF/Test_ProbabilityDensityFunction.py
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
